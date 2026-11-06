@@ -42,10 +42,6 @@ yarn-error.log
 # Local API content fallback (sem Blob)
 /data/content.local.json
 
-# Áudio local (copyright — não versionar)
-/src/assets/music/*
-!/src/assets/music/.gitkeep
-
 # IDEs and editors
 .idea/
 .project
