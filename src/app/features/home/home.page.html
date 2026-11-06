@@ -1,0 +1,42 @@
+<div class="page" [class.page--desktop]="isDesktop()">
+  <div
+    class="stage"
+    [class.stage--has-cover]="!!coverUrl()"
+    [style.--cover-image]="coverBackground()"
+  >
+    <div class="overlay"></div>
+
+    @if (loading() && !content()) {
+      <div class="state">
+        <mat-progress-spinner diameter="42" mode="indeterminate"></mat-progress-spinner>
+      </div>
+    } @else if (content(); as data) {
+      <div class="content">
+        <div class="top">
+          <mat-icon class="pulse-heart" aria-hidden="true">favorite</mat-icon>
+          <h1 class="title">{{ data.title }}</h1>
+          <p class="phrase">“{{ data.phrase }}”</p>
+        </div>
+
+        <div class="middle">
+          @if (data.music) {
+            <app-music-player [music]="data.music" />
+          }
+        </div>
+
+        <div class="bottom">
+          <p class="together-label">HÁ</p>
+          <app-counter-grid [values]="counter()" />
+
+          <app-heart-button label="Ver a galeria" (pressed)="openGallery()" />
+
+          @if (apiWarning()) {
+            <p class="warning">{{ apiWarning() }}</p>
+          }
+
+          <a class="admin-link" routerLink="/admin">Editar</a>
+        </div>
+      </div>
+    }
+  </div>
+</div>

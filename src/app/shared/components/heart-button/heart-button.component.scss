@@ -1,0 +1,25 @@
+.heart-cta {
+  width: 100%;
+  height: 3rem;
+  border-radius: 999px !important;
+  background: linear-gradient(135deg, #3d2460, #6b3a84, #8e4ea8) !important;
+  color: #fff !important;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  box-shadow: 0 10px 28px rgba(70, 35, 100, 0.4);
+}
+
+.heart-icon {
+  margin-right: 0.35rem;
+  animation: pulse-heart 1.6s ease-in-out infinite;
+}
+
+@keyframes pulse-heart {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.18);
+  }
+}

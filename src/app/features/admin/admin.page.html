@@ -1,0 +1,157 @@
+<section class="admin-page">
+  <header class="admin-header">
+    <a mat-icon-button routerLink="/" aria-label="Voltar">
+      <mat-icon>arrow_back</mat-icon>
+    </a>
+    <h1>Admin</h1>
+    @if (authenticated()) {
+      <button mat-button type="button" (click)="logout()">Sair</button>
+    } @else {
+      <span class="spacer"></span>
+    }
+  </header>
+
+  @if (!authenticated()) {
+    <mat-card class="panel">
+      <mat-card-header>
+        <mat-card-title>Entrar</mat-card-title>
+        <mat-card-subtitle>Área protegida por senha</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <mat-form-field appearance="outline" class="full">
+          <mat-label>Senha</mat-label>
+          <input
+            matInput
+            type="password"
+            autocomplete="current-password"
+            [formControl]="loginControl"
+            (keyup.enter)="login()"
+          />
+        </mat-form-field>
+        @if (loginError()) {
+          <p class="error">{{ loginError() }}</p>
+        }
+      </mat-card-content>
+      <mat-card-actions align="end">
+        <button
+          mat-flat-button
+          color="primary"
+          type="button"
+          [disabled]="loginControl.invalid || busy()"
+          (click)="login()"
+        >
+          Entrar
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  } @else {
+    <mat-card class="panel">
+      <mat-card-header>
+        <mat-card-title>Conteúdo</mat-card-title>
+      </mat-card-header>
+      <mat-card-content [formGroup]="contentForm">
+        <mat-form-field appearance="outline" class="full">
+          <mat-label>Título</mat-label>
+          <input matInput formControlName="title" />
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="full">
+          <mat-label>Frase</mat-label>
+          <textarea matInput rows="3" formControlName="phrase"></textarea>
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="full">
+          <mat-label>Data de início</mat-label>
+          <input matInput type="datetime-local" formControlName="startDate" />
+        </mat-form-field>
+      </mat-card-content>
+      <mat-card-actions align="end">
+        <button
+          mat-flat-button
+          color="primary"
+          type="button"
+          [disabled]="contentForm.invalid || busy()"
+          (click)="saveContent()"
+        >
+          Salvar
+        </button>
+      </mat-card-actions>
+    </mat-card>
+
+    <mat-card class="panel">
+      <mat-card-header>
+        <mat-card-title>Música</mat-card-title>
+        <mat-card-subtitle>
+          {{ content()?.music?.name || 'Nenhuma música definida' }}
+        </mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-actions>
+        <button mat-stroked-button type="button" [disabled]="busy()" (click)="musicInput.click()">
+          Enviar .mp3
+        </button>
+        @if (content()?.music) {
+          <button mat-button type="button" color="warn" [disabled]="busy()" (click)="clearMusic()">
+            Remover
+          </button>
+        }
+        <input
+          #musicInput
+          hidden
+          type="file"
+          accept="audio/mpeg,.mp3"
+          (change)="onMusicSelected($event)"
+        />
+      </mat-card-actions>
+    </mat-card>
+
+    <mat-card class="panel">
+      <mat-card-header>
+        <mat-card-title>Galeria</mat-card-title>
+      </mat-card-header>
+      <mat-card-actions>
+        <button mat-stroked-button type="button" [disabled]="busy()" (click)="photoInput.click()">
+          Enviar foto
+        </button>
+        <input
+          #photoInput
+          hidden
+          type="file"
+          accept="image/jpeg,image/png,image/webp,image/gif"
+          (change)="onPhotoSelected($event)"
+        />
+      </mat-card-actions>
+      <mat-card-content>
+        <div class="photo-grid">
+          @for (image of content()?.gallery || []; track image.id) {
+            <article class="photo-card">
+              <img [src]="image.url" [alt]="image.id" />
+              <div class="photo-actions">
+                <button
+                  mat-button
+                  type="button"
+                  [disabled]="busy() || content()?.coverImageId === image.id"
+                  (click)="setCover(image)"
+                >
+                  {{ content()?.coverImageId === image.id ? 'Capa' : 'Usar capa' }}
+                </button>
+                <button
+                  mat-button
+                  type="button"
+                  color="warn"
+                  [disabled]="busy()"
+                  (click)="removePhoto(image)"
+                >
+                  Remover
+                </button>
+              </div>
+            </article>
+          }
+        </div>
+      </mat-card-content>
+    </mat-card>
+  }
+
+  @if (busy()) {
+    <div class="busy-bar">
+      <mat-progress-spinner diameter="28" mode="indeterminate"></mat-progress-spinner>
+    </div>
+  }
+</section>

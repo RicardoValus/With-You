@@ -1,0 +1,42 @@
+<div class="player">
+  <strong class="player-title">{{ music().name }}</strong>
+
+  <div class="player-controls">
+    <button
+      mat-mini-fab
+      type="button"
+      color="primary"
+      [attr.aria-label]="isPlaying() ? 'Pausar' : 'Tocar'"
+      (click)="togglePlay()"
+    >
+      <mat-icon>{{ isPlaying() ? 'pause' : 'play_arrow' }}</mat-icon>
+    </button>
+
+    <div class="player-progress">
+      <mat-slider
+        [max]="duration() || 1"
+        [discrete]="false"
+        [disabled]="duration() <= 0"
+      >
+        <input
+          matSliderThumb
+          [value]="currentTime()"
+          (valueChange)="seek($event)"
+        />
+      </mat-slider>
+      <div class="player-times">
+        <span>{{ formatTime(currentTime()) }}</span>
+        <span>{{ formatTime(duration()) }}</span>
+      </div>
+    </div>
+  </div>
+
+  <audio
+    #audio
+    [src]="music().url"
+    preload="metadata"
+    (timeupdate)="onTimeUpdate()"
+    (loadedmetadata)="onLoadedMetadata()"
+    (ended)="onEnded()"
+  ></audio>
+</div>

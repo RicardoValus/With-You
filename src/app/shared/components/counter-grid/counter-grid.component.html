@@ -1,0 +1,8 @@
+<div class="counter-grid" role="timer" aria-live="polite">
+  @for (cell of cells(); track cell.label) {
+    <div class="counter-cell">
+      <span class="counter-value">{{ cell.value }}</span>
+      <span class="counter-label">{{ cell.label }}</span>
+    </div>
+  }
+</div>

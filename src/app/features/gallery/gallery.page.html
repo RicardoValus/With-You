@@ -1,0 +1,27 @@
+<section class="gallery-page">
+  <header class="gallery-header">
+    <a mat-icon-button routerLink="/" aria-label="Voltar">
+      <mat-icon>arrow_back</mat-icon>
+    </a>
+    <h1>Nossa galeria</h1>
+    <span class="spacer"></span>
+  </header>
+
+  @if (loading() && !content()) {
+    <div class="state">
+      <mat-progress-spinner diameter="42" mode="indeterminate"></mat-progress-spinner>
+    </div>
+  } @else if (content(); as data) {
+    @if (data.gallery.length === 0) {
+      <p class="empty">Ainda não há fotos por aqui.</p>
+    } @else {
+      <div class="grid">
+        @for (image of data.gallery; track image.id) {
+          <button type="button" class="tile" (click)="openLightbox(image)">
+            <img [src]="image.url" [alt]="'Foto ' + image.id" loading="lazy" />
+          </button>
+        }
+      </div>
+    }
+  }
+</section>

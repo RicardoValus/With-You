@@ -1,0 +1,43 @@
+.player {
+  width: 100%;
+  padding: 0.9rem 1rem;
+  border-radius: 1rem;
+  background: color-mix(in srgb, var(--app-surface) 75%, transparent);
+  border: 1px solid var(--app-glass-border);
+  backdrop-filter: blur(12px);
+}
+
+.player-title {
+  display: block;
+  margin-bottom: 0.75rem;
+  font-size: 0.92rem;
+  font-weight: 500;
+  color: var(--app-text);
+}
+
+.player-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.player-progress {
+  flex: 1;
+  min-width: 0;
+}
+
+.player-times {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.7rem;
+  color: var(--app-text-muted);
+  margin-top: -0.25rem;
+}
+
+mat-slider {
+  width: 100%;
+}
+
+audio {
+  display: none;
+}

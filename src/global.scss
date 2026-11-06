@@ -1,0 +1,41 @@
+@use '@angular/material' as mat;
+
+html {
+  @include mat.theme(
+    (
+      color: (
+        theme-type: dark,
+        primary: mat.$violet-palette,
+        tertiary: mat.$rose-palette,
+      ),
+      typography: Poppins,
+      density: 0,
+    )
+  );
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  font-family: var(--app-font-body);
+  color: var(--app-text);
+  background: var(--app-bg-deep);
+  -webkit-font-smoothing: antialiased;
+}
+
+.lightbox-panel .mat-mdc-dialog-container {
+  padding: 0;
+  background: transparent;
+  box-shadow: none;
+  max-width: 100vw !important;
+}
