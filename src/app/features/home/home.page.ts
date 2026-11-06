@@ -42,7 +42,6 @@ export class HomePage implements OnInit {
 
   readonly content = this.contentService.content;
   readonly loading = this.contentService.loading;
-  readonly apiWarning = this.contentService.error;
   readonly now = signal(new Date());
   readonly isDesktop = signal(false);
 

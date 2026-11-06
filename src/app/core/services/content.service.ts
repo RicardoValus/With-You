@@ -13,15 +13,12 @@ export class ContentService {
 
   private readonly contentSignal = signal<Content | null>(null);
   private readonly loadingSignal = signal(false);
-  private readonly errorSignal = signal<string | null>(null);
 
   readonly content = this.contentSignal.asReadonly();
   readonly loading = this.loadingSignal.asReadonly();
-  readonly error = this.errorSignal.asReadonly();
 
   async load(): Promise<Content> {
     this.loadingSignal.set(true);
-    this.errorSignal.set(null);
 
     try {
       const content = await firstValueFrom(
@@ -34,9 +31,6 @@ export class ContentService {
         this.http.get<Content>('/assets/content.json'),
       );
       this.contentSignal.set(fallback);
-      if (environment.production) {
-        this.errorSignal.set('API indisponível — usando conteúdo local');
-      }
       return fallback;
     } finally {
       this.loadingSignal.set(false);
